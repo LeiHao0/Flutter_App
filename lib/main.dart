@@ -1,8 +1,8 @@
+import 'dart:math';
+
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'dart:math';
-import 'package:english_words/english_words.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -77,29 +77,72 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Stack(
-            children: <Widget>[
-              Center(child: CircularProgressIndicator()),
-              Center(
-                child: FadeInImage.memoryNetwork(
-                  placeholder: kTransparentImage,
-                  image: 'https://picsum.photos/250?image=9',
-                ),
-              ),
-            ],
-          ),
-          Text(WordPair.random().asPascalCase),
-          Text("Download times: " + Random().nextInt(1000).toString()),
-        ],
-      ),
+      body: MyGridView(),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class MyCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Container(
+            height: 250,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(40),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                    Center(
+                      child: FadeInImage.memoryNetwork(
+                        placeholder: kTransparentImage,
+                        image: 'https://picsum.photos/seed/' +
+                            Random().nextInt(1000).toString() +
+                            '/300/200',
+                      ),
+                    ),
+                  ],
+                ),
+                Text(WordPair.random().asPascalCase),
+                Text("Download times: " + Random().nextInt(1000).toString()),
+              ],
+            )));
+  }
+}
+
+class MyGridView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: GridView.count(
+        primary: false,
+        padding: const EdgeInsets.fromLTRB(200, 100, 200, 100),
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 20,
+        crossAxisCount: 4,
+        children: <Widget>[
+          MyCard(),
+          MyCard(),
+          MyCard(),
+          MyCard(),
+          MyCard(),
+          MyCard(),
+          MyCard(),
+          MyCard(),
+          MyCard(),
+          MyCard(),
+          MyCard(),
+        ],
+      ),
     );
   }
 }
