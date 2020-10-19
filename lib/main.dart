@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() {
   runApp(MyApp());
@@ -92,30 +93,31 @@ class MyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-            height: 250,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(40),
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
-                    Center(
-                      child: FadeInImage.memoryNetwork(
-                        placeholder: kTransparentImage,
-                        image: 'https://picsum.photos/seed/' +
-                            Random().nextInt(1000).toString() +
-                            '/300/200',
-                      ),
-                    ),
-                  ],
-                ),
-                Text(WordPair.random().asPascalCase),
-                Text("Download times: " + Random().nextInt(1000).toString()),
-              ],
-            )));
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Stack(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(40),
+              child: Center(child: CircularProgressIndicator()),
+            ),
+            Center(
+                child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: FadeInImage.memoryNetwork(
+                placeholder: kTransparentImage,
+                image: 'https://picsum.photos/seed/' +
+                    Random().nextInt(1000).toString() +
+                    '/300/200',
+              ),
+            )),
+          ],
+        ),
+        Text(WordPair.random().asPascalCase),
+        Text("Download times: " + Random().nextInt(1000).toString()),
+      ],
+    )));
   }
 }
 
@@ -125,10 +127,10 @@ class MyGridView extends StatelessWidget {
     return Container(
       child: GridView.count(
         primary: false,
-        padding: const EdgeInsets.fromLTRB(200, 100, 200, 100),
+        padding: const EdgeInsets.all(kIsWeb ? 100.0 : 20.0),
         crossAxisSpacing: 20,
         mainAxisSpacing: 20,
-        crossAxisCount: 4,
+        crossAxisCount: kIsWeb ? 4 : 2,
         children: <Widget>[
           MyCard(),
           MyCard(),
